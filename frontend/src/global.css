@@ -1,0 +1,18 @@
+:root {
+  --primary-color: #1e4eb4;
+  --primary-hover-color: #133c96;
+  --secondary-color: #911ea0;
+  --secondary-hover-color: #771285;
+  --text-color: white;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100% !important;
+}

@@ -1,11 +1,15 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
+  <div id="app">
+    <HomePage />
+  </div>
 </template>
 
 <script>
+import HomePage from "@/views/HomePage.vue";
+
 export default {
   name: "App",
-  components: {},
+  components: { HomePage },
 };
 </script>
 
@@ -15,7 +19,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 </style>
