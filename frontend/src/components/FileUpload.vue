@@ -26,6 +26,8 @@
 <script>
 import axios from "axios";
 
+const backendUrl = process.env.VUE_APP_BACKEND_URL || "http://localhost:3000";
+
 export default {
   props: {
     onUploadSuccess: Function,
@@ -42,7 +44,7 @@ export default {
       formData.append("file", this.file);
 
       axios
-        .post("http://localhost:3000/file/upload", formData)
+        .post(`${backendUrl}/file/upload`, formData)
         .then((response) => {
           console.log("Upload bem-sucedido:", response.data);
           if (this.onUploadSuccess) {
