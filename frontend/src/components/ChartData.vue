@@ -1,26 +1,37 @@
-<!-- ChartData.vue -->
-
 <template>
-  <Bar id="my-chart-id" :options="chartOptions" :data="chartData" />
+  <div class="chart-container">
+    <div class="legend-buttons">
+      <LegendButton
+        v-for="(buttonData, index) in chartData"
+        :key="index"
+        :buttonText="buttonData.datasets[0].label"
+        :iconColor="buttonData.datasets[0].backgroundColor"
+        :disabled="index === activeButtonIndex"
+        @button-clicked="handleButtonClick(index)"
+      ></LegendButton>
+    </div>
+    <Line id="line-main-chart" :options="chartOptions" :data="currentChartData" />
+  </div>
 </template>
 
 <script>
-import { Bar } from "vue-chartjs";
+import { Line } from "vue-chartjs";
 import {
   Chart as ChartJS,
-  Title,
-  Tooltip,
-  Legend,
-  BarElement,
   CategoryScale,
   LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
 } from "chart.js";
+import LegendButton from "./LegendButton.vue";
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 export default {
-  name: "BarChart",
-  components: { Bar },
+  name: "LineChart",
+  components: { Line, LegendButton },
   props: {
     chartData: {
       type: Object,
@@ -31,9 +42,43 @@ export default {
       default: () => ({}),
     },
   },
+  data() {
+    return {
+      currentChartData: this.chartData[0],
+      activeButtonIndex: 0,
+    };
+  },
+  watch: {
+    chartData: {
+      handler() {
+        this.currentChartData = this.chartData[0];
+        this.activeButtonIndex = 0;
+      },
+      deep: true,
+    },
+  },
+  methods: {
+    handleButtonClick(index) {
+      this.currentChartData = this.chartData[index];
+      this.activeButtonIndex = index;
+    },
+  },
 };
 </script>
 
 <style scoped>
-/* Seu estilo aqui, se necessário */
+.chart-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+  margin: 20px;
+}
+.legend-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
 </style>

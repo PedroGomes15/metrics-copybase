@@ -1,17 +1,19 @@
 <!-- HomePage.vue -->
 
 <template>
-  <div>
-    <FileUpload @upload-success="handleUploadSuccess" />
-    <button @click="simulateUpload">Simular Upload</button>
+  <div class="container">
+    <FileUpload :on-upload-success="handleUploadSuccess" />
 
-    <ChartData :chart-data="chartData" :chart-options="chartOptions" v-if="chartData" />
+    <div class="chart-container" v-if="chartData">
+      <ChartData :chart-data="chartData" :chart-options="chartOptions" v-if="chartData" />
+    </div>
   </div>
 </template>
 
 <script>
 import FileUpload from "@/components/FileUpload.vue";
 import ChartData from "@/components/ChartData.vue";
+import { convertMetricInChart } from "@/utils/convertMetricInChart";
 
 export default {
   components: {
@@ -21,25 +23,33 @@ export default {
   data() {
     return {
       chartData: null,
-      chartOptions: null,
+      chartOptions: {
+        maintainAspectRatio: false,
+        responsive: true,
+      },
     };
   },
 
   methods: {
-    handleUploadSuccess() {
-      this.chartData = {
-        labels: ["Pedro", "Cachorro", "batata"],
-        datasets: [{ data: [40, 20, 12] }],
-      };
-    },
-    simulateUpload() {
-      // Simula um upload chamando a função handleUploadSuccess
-      this.handleUploadSuccess();
+    handleUploadSuccess(data) {
+      const dataMetrics = data.metrics;
+      const dataChart = convertMetricInChart(dataMetrics);
+      this.chartData = dataChart;
     },
   },
 };
 </script>
 
 <style scoped>
-/* Seu estilo aqui, se necessário */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 50px;
+}
+.chart-container {
+  width: 50vw;
+  height: 60vh;
+}
 </style>

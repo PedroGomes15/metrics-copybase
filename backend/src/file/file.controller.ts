@@ -5,7 +5,8 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileService, GlobalMetrics, MonthlyMetrics } from './file.service';
+import { FileService } from './file.service';
+import { Metrics } from '../metrics/metrics.service';
 
 @Controller('file')
 export class FileController {
@@ -13,11 +14,8 @@ export class FileController {
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(
-    @UploadedFile() file,
-  ): Promise<{ monthlyMetrics: MonthlyMetrics; globalMetrics: GlobalMetrics }> {
-    const { monthlyMetrics, globalMetrics } =
-      await this.fileService.processFile(file.buffer);
-    return { monthlyMetrics, globalMetrics };
+  async uploadFile(@UploadedFile() file): Promise<{ metrics: Metrics }> {
+    const { metrics } = await this.fileService.processFile(file.buffer);
+    return { metrics };
   }
 }

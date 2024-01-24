@@ -14,6 +14,9 @@
 import axios from "axios";
 
 export default {
+  props: {
+    onUploadSuccess: Function,
+  },
   methods: {
     handleFileChange(event) {
       this.file = event.target.files[0];
@@ -26,6 +29,10 @@ export default {
         .post("http://localhost:3000/file/upload", formData)
         .then((response) => {
           console.log("Upload bem-sucedido:", response.data);
+          if (this.onUploadSuccess) {
+            console.log("teste ");
+            this.onUploadSuccess(response.data);
+          }
         })
         .catch((error) => {
           console.error("Erro durante o upload:", error);
