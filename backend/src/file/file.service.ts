@@ -50,7 +50,10 @@ export class FileService {
             cleanRow[header] =
               typeof cell.v === 'string' ? new Date(cell.v) : cell.v;
           } else {
-            cleanRow[header] = cell.v;
+            cleanRow[header] =
+              typeof cell.v === 'string' && !isNaN(new Date(cell.v).getTime())
+                ? new Date(cell.v)
+                : cell.v;
           }
         }
       }

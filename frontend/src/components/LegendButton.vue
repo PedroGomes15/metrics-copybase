@@ -1,8 +1,8 @@
 <template>
-  <button :class="{ 'button-disabled': disabled }" @click="handleClick">
-    <div class="icon" :style="{ backgroundColor: iconColor }"></div>
+  <v-btn :disabled="disabled" @click="handleClick" class="custom-btn">
+    <v-icon :style="{ color: iconColor }" class="mr-2">mdi-chart-line</v-icon>
     <span :class="{ 'bold-text': disabled }">{{ buttonText }}</span>
-  </button>
+  </v-btn>
 </template>
 
 <script>
@@ -24,31 +24,10 @@ export default {
 </script>
 
 <style scoped>
-button {
-  display: flex;
-  align-items: center;
-  background: transparent;
-  border: none;
-  cursor: pointer;
+.custom-btn {
+  margin: 8px; /* Adicione a margem desejada */
 }
-
-.icon {
-  width: 20px;
-  height: 20px;
-  margin-right: 10px;
-  border: 2px solid black;
-}
-
-.button-disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.button-disabled .icon {
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-}
-
-.button-disabled .bold-text {
+.bold-text {
   font-weight: bold;
 }
 </style>

@@ -1,13 +1,15 @@
-<!-- HomePage.vue -->
-
 <template>
-  <div class="container">
-    <FileUpload :on-upload-success="handleUploadSuccess" />
+  <v-container class="fill-height">
+    <v-row align="center" justify="center">
+      <v-col cols="12" md="8">
+        <FileUpload :on-upload-success="handleUploadSuccess" />
 
-    <div class="chart-container" v-if="chartData">
-      <ChartData :chart-data="chartData" :chart-options="chartOptions" v-if="chartData" />
-    </div>
-  </div>
+        <v-card v-if="chartData">
+          <ChartData :chart-data="chartData" :chart-options="chartOptions" v-if="chartData" />
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -26,6 +28,8 @@ export default {
       chartOptions: {
         maintainAspectRatio: false,
         responsive: true,
+        scales: {},
+        tooltip: {},
       },
     };
   },
@@ -39,17 +43,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 50px;
-}
-.chart-container {
-  width: 50vw;
-  height: 60vh;
-}
-</style>

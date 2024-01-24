@@ -1,13 +1,26 @@
 <template>
-  <div class="file-upload">
-    <label :class="{ 'custom-file-input': true, 'file-selected': file }" for="file-input">
-      <span>{{ file ? file.name : "Escolher arquivo" }}</span>
-      <input id="file-input" type="file" @change="handleFileChange" />
-    </label>
-    <button :class="{ 'upload-button': true, 'file-selected': file }" @click="uploadFile">
-      Upload
-    </button>
-  </div>
+  <v-container fluid>
+    <v-row align="center" justify="center" no-gutters>
+      <v-col align-self="center">
+        <v-row align="center" justify="center" class="mt-6" no-gutters>
+          <v-btn :color="file ? 'success' : 'primary'" @click="chooseFile">
+            <v-icon left v-if="!file">mdi-upload</v-icon>
+            {{ file ? "Arquivo selecionado" : "Escolher arquivo" }}
+            <input
+              type="file"
+              ref="fileInput"
+              @change="handleFileChange"
+              style="display: none"
+              accept=".xlsx, .csv"
+            />
+          </v-btn>
+        </v-row>
+        <v-row align="center" justify="center" class="mt-6" no-gutters>
+          <v-btn :disabled="!file" color="primary" @click="uploadFile">Upload</v-btn>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -18,6 +31,9 @@ export default {
     onUploadSuccess: Function,
   },
   methods: {
+    chooseFile() {
+      this.$refs.fileInput.click();
+    },
     handleFileChange(event) {
       this.file = event.target.files[0];
     },
@@ -30,7 +46,6 @@ export default {
         .then((response) => {
           console.log("Upload bem-sucedido:", response.data);
           if (this.onUploadSuccess) {
-            console.log("teste ");
             this.onUploadSuccess(response.data);
           }
         })
@@ -46,56 +61,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.file-upload {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.custom-file-input {
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-}
-
-.custom-file-input span {
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  padding: 12px;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.custom-file-input.file-selected span {
-  background-color: var(--secondary-color);
-}
-
-.custom-file-input:hover span {
-  background-color: var(--primary-hover-color);
-}
-
-.custom-file-input.file-selected:hover span {
-  background-color: var(--secondary-hover-color);
-}
-
-.custom-file-input input {
-  display: none;
-}
-
-.upload-button {
-  margin-top: 10px;
-  padding: 10px;
-  background-color: var(--primary-color);
-  color: var(--text-color);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.upload-button:hover {
-  background-color: var(--primary-hover-color);
-}
-</style>

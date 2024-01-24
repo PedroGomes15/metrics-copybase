@@ -23,6 +23,10 @@ export class MonthlyMRR {
     data.forEach((subscription) => {
       const { billedEveryXDays, startDate, charges } = subscription;
 
+      if (charges === 0) {
+        return;
+      }
+
       if (billedEveryXDays === 365) {
         // Annual subscription
         const monthsInYear = 12;
@@ -63,8 +67,6 @@ export class MonthlyMRR {
         }
       }
     });
-
-    console.log('montlhy ', monthlyMetrics);
 
     return convertAndFillMissingMonths(formatValuesToFixed2(monthlyMetrics));
   }

@@ -1,17 +1,21 @@
 <template>
-  <div class="chart-container">
-    <div class="legend-buttons">
-      <LegendButton
-        v-for="(buttonData, index) in chartData"
-        :key="index"
-        :buttonText="buttonData.datasets[0].label"
-        :iconColor="buttonData.datasets[0].backgroundColor"
-        :disabled="index === activeButtonIndex"
-        @button-clicked="handleButtonClick(index)"
-      ></LegendButton>
-    </div>
-    <Line id="line-main-chart" :options="chartOptions" :data="currentChartData" />
-  </div>
+  <v-card title="Chart Metrics" fluid>
+    <v-col class="fill-height">
+      <v-row style="height: 40vh" no-gutters>
+        <Line id="line-main-chart" :options="currentChartOptions" :data="currentChartData" />
+      </v-row>
+      <v-row align="center" justify="center">
+        <LegendButton
+          v-for="(buttonData, index) in chartData"
+          :key="index"
+          :buttonText="buttonData.datasets[0].label"
+          :iconColor="buttonData.datasets[0].backgroundColor"
+          :disabled="index === activeButtonIndex"
+          @button-clicked="handleButtonClick(index)"
+        ></LegendButton>
+      </v-row>
+    </v-col>
+  </v-card>
 </template>
 
 <script>
@@ -29,6 +33,24 @@ import LegendButton from "./LegendButton.vue";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
+const chartPercentOptions = {
+  maintainAspectRatio: false,
+  responsive: true,
+  scales: {
+    y: {
+      ticks: {
+        beginAtZero: true,
+        callback: (value) => `${value}%`, // Formatação do eixo Y para porcentagem
+      },
+    },
+  },
+  tooltips: {
+    callbacks: {
+      label: (tooltipItem) => `${tooltipItem.label}: ${tooltipItem.formattedValue}%`, // Formatação do tooltip
+    },
+  },
+};
+
 export default {
   name: "LineChart",
   components: { Line, LegendButton },
@@ -45,6 +67,7 @@ export default {
   data() {
     return {
       currentChartData: this.chartData[0],
+      currentChartOptions: this.chartOptions,
       activeButtonIndex: 0,
     };
   },
@@ -61,24 +84,12 @@ export default {
     handleButtonClick(index) {
       this.currentChartData = this.chartData[index];
       this.activeButtonIndex = index;
+      if (this.currentChartData.formatType === "percent") {
+        this.currentChartOptions = chartPercentOptions;
+      } else {
+        this.currentChartOptions = this.chartOptions;
+      }
     },
   },
 };
 </script>
-
-<style scoped>
-.chart-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 400px;
-  width: 100%;
-  margin: 20px;
-}
-.legend-buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-}
-</style>

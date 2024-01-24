@@ -2,12 +2,23 @@ const configMetrics = [
   {
     key: "monthlyMRR",
     label: "Monthly MRR",
-    backgroundColor: "#f87979",
+    backgroundColor: "#92BFB1",
   },
   {
     key: "monthlyCancellation",
     label: "Monthly Cancelations",
-    backgroundColor: "#382432",
+    backgroundColor: "#A61C3C",
+  },
+  {
+    key: "monthlyActiveUsers",
+    label: "Monthly Active Users",
+    backgroundColor: "#5EEB5B",
+  },
+  {
+    key: "monthlyChurnRate",
+    label: "Monthly Churn Rate",
+    backgroundColor: "#F4AC45",
+    formatType: "percent",
   },
 ];
 
@@ -27,6 +38,7 @@ export function convertMetricInChart(metrics) {
           data: [],
         },
       ],
+      formatType: metric.formatType || "",
     });
 
     const allMonths = new Set();
