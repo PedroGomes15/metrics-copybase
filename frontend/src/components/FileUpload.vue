@@ -31,6 +31,7 @@ const backendUrl = process.env.VUE_APP_BACKEND_URL || "http://localhost:3000";
 export default {
   props: {
     onUploadSuccess: Function,
+    onStartUpload: Function,
   },
   methods: {
     chooseFile() {
@@ -40,6 +41,7 @@ export default {
       this.file = event.target.files[0];
     },
     uploadFile() {
+      this.onStartUpload();
       const formData = new FormData();
       formData.append("file", this.file);
 

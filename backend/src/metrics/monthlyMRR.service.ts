@@ -5,6 +5,12 @@ import { convertAndFillMissingMonths } from '../file/formatData.utils';
 
 @Injectable()
 export class MonthlyMRR {
+  /**
+   * Calcula as métricas mensais com base nos dados de assinatura fornecidos.
+   *
+   * @param data - Um array de objetos Subscription.
+   * @returns Um registro contendo as métricas mensais, com ano e mês como chaves e o valor da métrica correspondente como valor.
+   */
   processMetric(data: Subscription[]): Record<string, Record<string, number>> {
     const monthlyMetrics: Record<string, Record<string, number>> = {};
 

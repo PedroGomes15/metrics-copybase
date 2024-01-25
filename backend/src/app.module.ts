@@ -9,8 +9,8 @@ import { ConvertHeaderUtils } from './file/convertHeader.utils';
 import { MetricsService } from './metrics/metrics.service';
 
 @Module({
-  imports: [FileModule], // Adicione o FileModule aqui
+  imports: [FileModule],
   controllers: [AppController],
-  providers: [AppService, FileService, ConvertHeaderUtils, MetricsService], // Adicione ConvertHeaderUtils aqui
+  providers: [AppService, FileService, ConvertHeaderUtils, MetricsService],
 })
 export class AppModule {}
