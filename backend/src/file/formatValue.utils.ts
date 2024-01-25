@@ -1,3 +1,9 @@
+/**
+ * Formata os valores de um objeto para ter uma precisão fixa de 2 casas decimais.
+ *
+ * @param obj - O objeto a ser formatado.
+ * @returns O objeto formatado com valores arredondados para 2 casas decimais.
+ */
 export const formatValuesToFixed2 = (obj: any): any => {
   if (!obj || typeof obj !== 'object') {
     return obj;

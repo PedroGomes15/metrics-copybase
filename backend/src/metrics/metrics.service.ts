@@ -11,6 +11,12 @@ export interface Metrics {
 
 @Injectable()
 export class MetricsService {
+  /**
+   * Processa todas as métricas com base nos dados de assinatura fornecidos.
+   *
+   * @param data - Um array de objetos Subscription.
+   * @returns Um objeto contendo as métricas calculadas para MRR mensal, cancelamentos mensais, usuários ativos mensais e taxa de churn mensal.
+   */
   processAllMetrics(data: Subscription[]) {
     const monthlyMrrService = new MonthlyMRR();
     const monthlyMRR = monthlyMrrService.processMetric(data);

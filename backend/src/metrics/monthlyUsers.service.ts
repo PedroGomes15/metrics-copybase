@@ -4,13 +4,17 @@ import { convertAndFillMissingMonths } from '../file/formatData.utils';
 
 @Injectable()
 export class MonthlyActiveUsersService {
+  /**
+   * Calcula o número de usuários ativos com base nos dados de assinatura fornecidos.
+   *
+   * @param data - Um array de objetos Subscription que representa os dados de assinatura.
+   * @returns Um objeto aninhado contendo o número de usuários ativos para cada ano e mês.
+   */
   calculateActiveUsers(
     data: Subscription[],
   ): Record<string, Record<string, number>> {
-    // Inicializar um objeto para armazenar os resultados do número de usuários ativos
     const activeUsers: Record<string, Record<string, number>> = {};
 
-    // Iterar sobre os dados fornecidos para calcular os usuários ativos em cada mês
     data.forEach((subscription) => {
       const { startDate, statusDate, billedEveryXDays } = subscription;
 
@@ -29,7 +33,6 @@ export class MonthlyActiveUsersService {
         activeUsers[yearKey] ??= {};
         activeUsers[yearKey][monthKey] ??= 0;
 
-        // Se a assinatura for anual, somar como um usuário ativo nos próximos 12 meses
         if (billedEveryXDays === 365) {
           for (let i = 0; i < 12; i++) {
             const futureMonthKey = ((currentDate.getMonth() + 1 + i) % 12) + 1;
@@ -43,7 +46,6 @@ export class MonthlyActiveUsersService {
             activeUsers[futureYearKey][futureMonthKey.toString()] += 1;
           }
         } else {
-          // Caso contrário, somar como um usuário ativo no mês atual
           activeUsers[yearKey][monthKey] += 1;
         }
 

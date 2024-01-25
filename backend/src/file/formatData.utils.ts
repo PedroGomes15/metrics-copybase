@@ -4,6 +4,12 @@ interface ConvertData {
   };
 }
 
+/**
+ * Converte e preenche os meses faltantes nos dados de entrada.
+ *
+ * @param inputData - Os dados de entrada a serem convertidos e preenchidos.
+ * @returns Os dados convertidos com os meses faltantes preenchidos.
+ */
 export function convertAndFillMissingMonths(
   inputData: ConvertData,
 ): ConvertData {
@@ -25,6 +31,12 @@ export function convertAndFillMissingMonths(
   return convertedData;
 }
 
+/**
+ * Retorna o nome do mês correspondente ao número do mês fornecido.
+ *
+ * @param month - O número do mês (1-12).
+ * @returns O nome do mês.
+ */
 function getMonthName(month: number): string {
   const monthNames = [
     'January',

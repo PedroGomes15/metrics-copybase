@@ -23,6 +23,12 @@ export class FileService {
     private readonly metricsService: MetricsService,
   ) {}
 
+  /**
+   * Processa a planilha fornecida e retorna um array de dados limpos.
+   *
+   * @param sheet - A planilha a ser processada.
+   * @returns Um array de dados limpos.
+   */
   private processSheet(sheet: xlsx.WorkSheet): any[] {
     const range = xlsx.utils.decode_range(sheet['!ref']);
     const cleanData: any[] = [];
@@ -64,6 +70,12 @@ export class FileService {
     return cleanData;
   }
 
+  /**
+   * Processa o buffer do arquivo fornecido e retorna as métricas processadas.
+   *
+   * @param fileBuffer - O buffer do arquivo a ser processado.
+   * @returns Uma promise que resolve para um objeto contendo as métricas processadas.
+   */
   async processFile(fileBuffer: Buffer): Promise<{ metrics: Metrics }> {
     const workbook = xlsx.read(fileBuffer, { type: 'buffer', cellDates: true });
     const sheetName = workbook.SheetNames[0];

@@ -4,6 +4,13 @@ import { convertAndFillMissingMonths } from '../file/formatData.utils';
 
 @Injectable()
 export class MonthlyCancellation {
+  /**
+   * Extrai os meses de cancelamento do array fornecido de assinaturas.
+   *
+   * @param data - Um array de objetos Subscription.
+   * @returns Um objeto aninhado representando os meses de cancelamento, onde a chave externa é o ano e a chave interna é o mês, com o valor correspondente sendo o número de cancelamentos naquele mês.
+   */
+
   extractCancelledMonths(
     data: Subscription[],
   ): Record<string, Record<string, number>> {
